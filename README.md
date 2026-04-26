@@ -77,6 +77,7 @@ git commit -m "file.txt added"
 ```
 
 ### 6) Push all the files/changes
+
 ```
 git push
 ```
@@ -92,5 +93,59 @@ ssh-keygen -t rsa -b 4096 -C "pmunot11@gmail.com"
 Enter passphrase or leave it empty
 Enter key name
 A pair of keys will be generated [1public key and another private key]
-Go to Github Profile -> Settings -> SSH and GPG Keys -> Add key -> Then add your public key there
+Go to Github Profile -> Settings -> SSH and GPG Keys -> Add key -> Finally add your public key there
 
+---
+
+### 8) Create repo locally and connect it to our repository
+Currently we are working in folder demo-repo which is our repository as well.
+Lets we create a new folder outside demo-repo with name demo-repo2
+Inside demo-repo2 folder, create a file README.md and add some text in it.
+Initialize a git repo via cmd
+```
+mkdir demo-repo2
+cd demo-repo2
+vim README.md
+git init
+```
+Once you initialize, You will see a hidden folder .git created inside the folder demo-repo2
+Check status and since its untracked so track it via add cmd
+```
+git status
+git add README.md
+git commit -m "added readme"
+```
+
+Now if you try to push it on, it produces error fatal
+Thats because we have not cloned it from an existing repo and we are directly trying to push it on orgin master 
+So git says it has no idea where to push it now.
+Currently this repo is not yet connected to anything. We need to make that connection via following cmd.
+Go to your new repo which is demo-repo2 which you have already created on github and copy its url.
+```
+
+git remote add origin https://github.com/PratikMunot/demo-repo2.git
+```
+Now you have established the connection between your local folder and remote git repo
+You can start to push the changes via cmd - git push origin master. But there is a shortcut as well.
+You can set a one time upstream to tell git that this will be my default location to push via cmd
+```
+git push -u origin master 
+```
+from next onwards you can simply use 
+```
+git push 
+```
+You can check how many repos are connected to this via cmd
+``` 
+git remote -v
+> origin  https://github.com/PratikMunot/demo-repo2.git (fetch)
+> origin  https://github.com/PratikMunot/demo-repo2.git (push)
+```
+---
+
+### Branching 
+
+Master Branch is the main or default branch in the repository.
+If you are only working on one branch then master branch is where all your code, all your commits and changes  will live.
+Lets create a new branch called feature branch. At first the master and feature branch will be exactly same. 
+As you make updates to the feature branch those changes will be only seen in feature branch. Each changes or commits that are made on one branch will not be visible on the other branch. Each branch is only keeping track of changes and commits that are made on its own branch. 
