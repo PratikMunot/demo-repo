@@ -85,7 +85,7 @@ git push
 it will ask for username and password which is your Personal Access Token
 To generate a PAT [Go to Settings->Developer Settings->Generate new Token]
 
-# 7) Alternate Authentication method is setup SSH key based access control
+### 7) Alternate Authentication method is setup SSH key based access control
 Generate new key pair
 ```
 ssh-keygen -t rsa -b 4096 -C "pmunot11@gmail.com"
@@ -148,4 +148,81 @@ git remote -v
 Master Branch is the main or default branch in the repository.
 If you are only working on one branch then master branch is where all your code, all your commits and changes  will live.
 Lets create a new branch called feature branch. At first the master and feature branch will be exactly same. 
-As you make updates to the feature branch those changes will be only seen in feature branch. Each changes or commits that are made on one branch will not be visible on the other branch. Each branch is only keeping track of changes and commits that are made on its own branch. 
+As you make updates to the feature branch those changes will be only seen in feature branch. Each changes or commits that are made on one branch will not be visible on the other branch. Each branch is only keeping track of changes and commits that are made on its own branch.
+
+
+Use cmd git branch to view all your branches in the repository. You will see * main which means currently there is one branch called main and * means you are working on that branch currently.
+```
+git branch
+* main
+```
+
+Use git checkout cmd to switch branches -b to create new branch followed by branch name 
+
+```
+git checkout -b feature
+Switched to a new branch 'feature'
+
+git branch
+* feature
+  main
+
+```
+now you see that there are 2 branches and currently you are working on feature branch 
+To switch back to master or and then to feature, use cmd
+```
+git checkout master
+git checkout feature
+```
+-b flag is only used to create a new branch. For switching branches you can use above cmd
+
+Now lets make changes on the master branch first in the README.md file and then comapre it with our feature branch
+```
+git checkout main
+vim README.md
+git add .
+git commit -m "updated README in main"
+
+git diff feature
+```
+Before pushing anything Lets compare. Since you are on main branch use git diff feature to compare what is the difference in both branches.
+You can see ther are lines which are added with + in main which are not present in feature branch.
+
+You can merge both main and feature branch together or you can commit the changes of main branch to github and then make a pull request to feature branch.
+Lets see approach 2
+Since we have configured upstream for main we can use comman ```git push``` which will by deafualt push on main.
+If you wish to push on feature branch, you can use command ```git push -u origin feature``` which will set as upstream default for branch feature in remote orgin. Our local feature branch is set to track remote branch feature  from origin.
+```
+git push 
+```
+
+Changes to main branch have been pushed. Lets make a pull request from main branch on remote feature branch local.
+Once you have merged the changes of main and feature you should delete feature branch and start working on main branch.
+The branch you created locally isnt pushed to git yet and hence its not reflecting on github.
+```
+git push origin feature
+```
+Now if you view github portal on repository you can see 2 branches [main, feature]
+Go to Pull requests section, you will see 2 branches there. Click on Create pull request
+There you will always find a base ie main branch where all the code will be merged. 
+And then you will find compare ie feature branch
+
+main branch is ahead and feature branch is behind. Lets pull the changes from main to feature
+```
+git checkout feature
+Switched to branch 'feature'
+
+git branch
+* feature
+  main
+
+git pull origin main
+From https://github.com/PratikMunot/demo-repo
+ * branch            main       -> FETCH_HEAD
+Updating cce38d6..8340455
+Fast-forward
+ README.md  | 57 ++++++++++++++++++++++++++++++++++++++++++++++++++++++++-
+ index.html |  3 ++-
+ 2 files changed, 58 insertions(+), 2 deletions(-)
+
+ 
