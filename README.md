@@ -225,4 +225,30 @@ Fast-forward
  index.html |  3 ++-
  2 files changed, 58 insertions(+), 2 deletions(-)
 
+Simple flow revised below -
+
+```
+git checkout feature            # Switch to feature branch
+vim README.md                   # Edit the file / make the changes
+git add .
+git commit -m "updated readme on feature"
+git push origin feature         # push the changes to feature branch
+
+# All changes made are pushed to feature branch
+# Lets pull the changes to main branch
+
+git checkout main               # Swith to main branch
+git pull origin feature         # Pull changes from feature to main branch
+# All changes from feature branch are pulled to main branch
+```
+
+After you finished merging changes from feature to main. You should delete the temporary branch ie. feature
+-d stands for delete and followed by branch name
+git branch -d feature
+Deleted branch feature (was ecce4cf).
+
+git branch
+* main
+
+You can see there is only one branch main currently
  
