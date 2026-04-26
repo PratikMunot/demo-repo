@@ -1,4 +1,4 @@
-# Demo repo
+# Github Study Notes
 
 - by Pratik Munot
 
@@ -11,7 +11,7 @@ commit - Save your files in Git
 push - Upload Git commits to a remote repo, like Github
 pull - Download changes from remote repo to your local machine, its the opposite of push
 
-###########################
+---
 
 ### 1) Set up credentials for github
 ```
@@ -34,7 +34,6 @@ whenever you create new files, they will be untracked by default
 ### Lets check status
 ```
 git status
-```
 
 On branch main
 Your branch is up to date with 'origin/main'.
@@ -44,14 +43,13 @@ Untracked files:
         file.txt
 
 nothing added to commit but untracked files present (use "git add" to track)
-
+```
 
 ### 4) Track files [1 file or all files at a time]
 to track a single file
 ```
 git add file.txt
 ```
-
 Track all files and folders including nested ones
 ```
 git add .
@@ -60,14 +58,14 @@ git add .
 ### Recheck status after tracking
 ```
 git status
-```
+
 On branch main
 Your branch is up to date with 'origin/main'.
 
 Changes to be committed:
   (use "git restore --staged <file>..." to unstage)
         new file:   file.txt
-
+```
 
 ### 5) Commit the changes
 Once you have completed adding/tracking of all/required files, next you have to commit the changes
@@ -224,7 +222,7 @@ Fast-forward
  README.md  | 57 ++++++++++++++++++++++++++++++++++++++++++++++++++++++++-
  index.html |  3 ++-
  2 files changed, 58 insertions(+), 2 deletions(-)
-
+```
 Simple flow revised below -
 
 ```
@@ -244,11 +242,142 @@ git pull origin feature         # Pull changes from feature to main branch
 
 After you finished merging changes from feature to main. You should delete the temporary branch ie. feature
 -d stands for delete and followed by branch name
+```
 git branch -d feature
 Deleted branch feature (was ecce4cf).
 
 git branch
 * main
-
+```
 You can see there is only one branch main currently
+
+### Undo changes/stages in git
+
+There are 2 types of undo in git environment
+1) undo staging ie. If you have by mistakenly added changes to track thats called staging
+2) undo commit ie by mistakenly if you have committed a change you can jump back to any of last 1 or 2 or 3 etc commits
+
+Undo Staging changes - 
+Lets edit file README.md and make some changes
+
+```
+vim README.md
+git status
+
+On branch main
+Your branch is up to date with 'origin/main'.
+
+Changes to be committed:
+  (use "git restore --staged <file>..." to unstage)
+        modified:   README.md
+
+Changes not staged for commit:
+  (use "git add <file>..." to update what will be committed)
+  (use "git restore <file>..." to discard changes in working directory)
+        modified:   README.md
+```
+You will see once you edit the file and check git status, there are changes which are yet to be committed says git
+Lets add to track the changes. After you add you should see changes pending to be committed.
+```
+git add README.md
+git status
+
+On branch main
+Your branch is up to date with 'origin/main'.
+
+Changes to be committed:
+  (use "git restore --staged <file>..." to unstage)
+        modified:   README.md
+
+```
+Now say by mistakenly you added the changes to track. You can reset the tracking via cmd - git reset.
+Post reset you should see git status to be Changes not staged for commit like before 
+```
+git reset
+Unstaged changes after reset:
+M       README.md
+
+git status
+On branch main
+Your branch is up to date with 'origin/main'.
+
+Changes not staged for commit:
+  (use "git add <file>..." to update what will be committed)
+  (use "git restore <file>..." to discard changes in working directory)
+        modified:   README.md
+
+no changes added to commit (use "git add" and/or "git commit -a")
+```
+
+Undo commit 
+
+If you have just modified a file and not added any new file then you can combine git add and git commit cmd as shown below with -am flag
+```
+git commit -am "test commit"
+
+[main 348c39d] test commit
+ 1 file changed, 2 insertions(+), 1 deletion(-)
+[root@linuxtest demo-repo]# git status
+On branch main
+Your branch is ahead of 'origin/main' by 1 commit.
+  (use "git push" to publish your local commits)
+
+nothing to commit, working tree clean
+
+git reset HEAD~1
+
+Unstaged changes after reset:
+M       README.md
+
+git status
+On branch main
+Your branch is up to date with 'origin/main'.
+
+Changes not staged for commit:
+  (use "git add <file>..." to update what will be committed)
+  (use "git restore <file>..." to discard changes in working directory)
+        modified:   README.md
+
+no changes added to commit (use "git add" and/or "git commit -a")
+```
+
+In git reset cmd HEAD means the pointer which is currently pointing to your last commit
+If you plan to rollback 1 commit back use HEAD~1. If 2 commit back use HEAD~2 and so on.
+
+Similarly, If you wish to rollback to a commit which was very old, you can do so via the unique hash it produces for each commit
+
+Use git log cmd to view all your last commit logs and copy the hash and rollback to it as shown below
+
+```
+git log 
+
+commit fd8b2f2cfac1d522888e2ae1e600fb08c73fd322 (HEAD -> main, origin/main, origin/HEAD)
+Author: Pratik.Munot <pmunot11@gmail.com>
+Date:   Sun Apr 26 14:58:17 2026 +0000
+
+    updated README
+
+commit ecce4cf438583643e3248602c0a3e978f530d412 (origin/feature)
+Author: Pratik.Munot <pmunot11@gmail.com>
+Date:   Sun Apr 26 10:31:20 2026 +0000
+
+    updated readme on feature
+
+commit 8340455c857ccf9df0c08b33243b4e6669491677
+Author: Pratik.Munot <pmunot11@gmail.com>
+Date:   Sun Apr 26 07:42:08 2026 +0000
+
+    updated readme in main
+
+commit cce38d6b913dfebd7890eed3c11dee66d7168a3f
+Author: Pratik Munot <47396315+PratikMunot@users.noreply.github.com>
+Date:   Sat Apr 25 20:23:23 2026 +0530
+
+    Update README.md
+	
+	
+	
+git reset ecce4cf438583643e3248602c0a3e978f530d412
+```
+You will now be pointing to that particular commit instead of latest one
  
